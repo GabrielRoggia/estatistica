@@ -1,7 +1,7 @@
 import math
 
 def dados_brutos():
-    dados = [10,10,10,11,12,13,14,15,16,17,16,15,20,20,13,12,15,19,18,18]
+    dados = [ 45, 41, 42, 41, 42, 43, 44, 41 ,50, 46, 50, 46, 60, 54, 52,58, 57, 58,60, 51]
     op = "S"
     """
     while op == "S":
@@ -17,8 +17,8 @@ def amplitude_total(lista):
     return h_total
 
 def regra_sturges(lista):
-    k = 1 + 3.3*(math.log(len(lista)))
-    
+    k = 1 + 3.3*math.log10(len(lista))
+
     return round(k)
 
 def amplitude_classe(h_total , k):
@@ -80,7 +80,7 @@ def frequencia_relativa(absoluta, lista):
     relativa = []
     
     for i in range(len(absoluta)):
-        relativa.append(absoluta[i]/len(lista))
+        relativa.append((absoluta[i]/len(lista))*100)
     
     return relativa
     
@@ -109,3 +109,16 @@ def main():
     
     
 main()
+
+
+"""
+i   Classe    fi   Xi   Xi.fi   fa   fri
+1   41|--45   7    43   301     7    35%
+2   45|--49   3    47   141     10   15%
+3   49|--53   4    51   204     14   20%
+4   53|--57   1    55   55      15   05%
+5   57|--61   5    59   295     20   25%
+TOTAL         20        996          100%
+"""
+      
+    

@@ -84,6 +84,27 @@ def frequencia_relativa(absoluta, lista):
     
     return relativa
     
+def imprimir_tabela(classes, absoluta, ponto_medio, xifi, acumulada, relativa):
+    soma_xifi = 0
+    soma_fri = 0
+    print("\ni   Classe   Fi   Xi   Xi.Fi   Fa   FRi")
+    for i in range(len(classes)):
+        print("%.i   %.i|--%.i  %.i    %.i   %.i     %.i    %.i" %(i+1, classes[i][0], classes[i][1], absoluta[i], ponto_medio[i], xifi[i],acumulada[i],relativa[i]))
+        soma_xifi += xifi[i]
+        soma_fri += relativa[i]
+        
+    print("TOTAL        %.i        %.i          %.i" %(acumulada[-1],soma_xifi,soma_fri))
+"""
+i   Classe    fi   Xi   Xi.fi   fa   fri
+1   41|--45   7    43   301     7    35%
+2   45|--49   3    47   141     10   15%
+3   49|--53   4    51   204     14   20%
+4   53|--57   1    55   55      15   05%
+5   57|--61   5    59   295     20   25%
+TOTAL         20        996          100%
+"""
+    
+    
 def main():
     dados = dados_brutos()
     print("DADOS:\n",dados)
@@ -105,20 +126,8 @@ def main():
     print("FREQUENCIA RELATIVA: \n", relativa)
     xifi = calcular_xifi (absoluta, ponto_medio)
     print("Xi.Fi:\n", xifi)
+    imprimir_tabela(classes, absoluta, ponto_medio, xifi, acumulada, relativa)
     
     
     
 main()
-
-
-"""
-i   Classe    fi   Xi   Xi.fi   fa   fri
-1   41|--45   7    43   301     7    35%
-2   45|--49   3    47   141     10   15%
-3   49|--53   4    51   204     14   20%
-4   53|--57   1    55   55      15   05%
-5   57|--61   5    59   295     20   25%
-TOTAL         20        996          100%
-"""
-      
-    

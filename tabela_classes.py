@@ -1,4 +1,16 @@
 import math
+import random
+
+def amostragem_aleatoria():
+    lista = []
+    tam = int(input("Digite o tamanho da amostragem:"))
+    for i in range(0,tam):
+            lista.append(random.randint(0, 100))
+    print("AMOSTRA:")
+    print(lista)
+    
+    return lista
+
 
 def dados_brutos():
     dados = [ 45, 41, 42, 41, 42, 43, 44, 41 ,50, 46, 50, 46, 60, 54, 52,58, 57, 58,60, 51]
@@ -87,45 +99,43 @@ def frequencia_relativa(absoluta, lista):
 def imprimir_tabela(classes, absoluta, ponto_medio, xifi, acumulada, relativa):
     soma_xifi = 0
     soma_fri = 0
-    print("\ni   Classe   Fi   Xi   Xi.Fi   Fa   FRi")
+    
+    formato_cabecalho = '{:<5} {:<10} {:<5} {:<8} {:<8} {:<5} {:<5}'
+    print("-"*60)
+    print(formato_cabecalho.format('i', 'CLASSE', 'Fi', 'Xi','Xi.Fi', 'Fa', 'FRi'))
+    print("-"*60)
     for i in range(len(classes)):
-        print("%.i   %.i|--%.i  %.i    %.i   %.i     %.i    %.i" %(i+1, classes[i][0], classes[i][1], absoluta[i], ponto_medio[i], xifi[i],acumulada[i],relativa[i]))
+        formato = '{:<5} {:>}|--{:<5} {:<5} {:<8} {:<8} {:<5} {:<}%'
+        print(formato.format(i+1, classes[i][0], classes[i][1], absoluta[i], ponto_medio[i], xifi[i],acumulada[i],relativa[i]))
         soma_xifi += xifi[i]
         soma_fri += relativa[i]
-        
-    print("TOTAL        %.i        %.i          %.i" %(acumulada[-1],soma_xifi,soma_fri))
-"""
-i   Classe    fi   Xi   Xi.fi   fa   fri
-1   41|--45   7    43   301     7    35%
-2   45|--49   3    47   141     10   15%
-3   49|--53   4    51   204     14   20%
-4   53|--57   1    55   55      15   05%
-5   57|--61   5    59   295     20   25%
-TOTAL         20        996          100%
-"""
+    print("-"*60)   
+    print(formato_cabecalho.format("TOTAL","",acumulada[-1],"",soma_xifi,"",soma_fri)+"%")
+    print("-"*60)
     
     
 def main():
-    dados = dados_brutos()
-    print("DADOS:\n",dados)
+    
+    dados = amostragem_aleatoria()
+    #print("DADOS:\n",dados)
     amp_total = amplitude_total(dados)
-    print("AMPLITUDE TOTAL:\n", amp_total)
+    #print("AMPLITUDE TOTAL:\n", amp_total)
     sturges = regra_sturges(dados)
-    print("REGRA DE STURGES:\n", sturges)
+    #print("REGRA DE STURGES:\n", sturges)
     amp_classe = amplitude_classe(amp_total, sturges)
-    print("AMPLITUDE DE CLASSE:\n", amp_classe)
+    #print("AMPLITUDE DE CLASSE:\n", amp_classe)
     classes = montar_classes(dados, amp_classe, sturges)
-    print("CLASSES:\n", classes)
+    #print("CLASSES:\n", classes)
     ponto_medio = calcular_ponto_medio(classes)
-    print("PONTO MEDIO:\n", ponto_medio)
+    #print("PONTO MEDIO:\n", ponto_medio)
     absoluta = frequencia_absoluta(dados, classes)
-    print("FREQUENCIA ABSOLUTA: \n", absoluta)
+    #print("FREQUENCIA ABSOLUTA: \n", absoluta)
     acumulada = frequencia_acumulda(absoluta)
-    print("FREQUENCIA ACUMULADA: \n", acumulada)
+    #print("FREQUENCIA ACUMULADA: \n", acumulada)
     relativa = frequencia_relativa(absoluta, dados)
-    print("FREQUENCIA RELATIVA: \n", relativa)
+    #print("FREQUENCIA RELATIVA: \n", relativa)
     xifi = calcular_xifi (absoluta, ponto_medio)
-    print("Xi.Fi:\n", xifi)
+    #print("Xi.Fi:\n", xifi)
     imprimir_tabela(classes, absoluta, ponto_medio, xifi, acumulada, relativa)
     
     

@@ -99,6 +99,48 @@ def frequencia_relativa(absoluta, lista):
     
     return relativa
     
+def calcular_media(dados):
+    return sum(dados)/len(dados)
+    
+def calcular_mediana(dados):
+    mediana = 0
+    meio = (len(dados)//2)-1
+    
+    if len(dados)%2 == 0:
+        mediana = (dados[meio]+dados[meio+1])/2
+    else:
+        mediana = dados[math.ceil(len(dados))//2]
+    
+    return mediana
+
+def calcular_moda(dados):
+    modas = []
+    count = 0
+    moda_final = []
+    
+    for i in range (len(dados)):
+            if dados[i] not in modas:
+                modas.append(dados[i])
+    
+    for i in range (len(modas)):
+        for j in range (len(dados)):
+            if modas[i] == dados[j]:
+                count += 1
+        modas[i] = [count,modas[i]]
+        count = 0
+       
+    for i in range (len(modas)):
+        if modas[i][0] == max(modas)[0]:
+            moda_final.append(modas[i][1])
+    
+    return moda_final
+            
+    
+    
+        
+
+            
+        
 def imprimir_tabela(classes, absoluta, ponto_medio, xifi, acumulada, relativa):
     soma_xifi = 0
     soma_fri = 0
@@ -141,6 +183,12 @@ def main():
     xifi = calcular_xifi (absoluta, ponto_medio)
     print("Xi.Fi:", xifi,"\n")
     imprimir_tabela(classes, absoluta, ponto_medio, xifi, acumulada, relativa)
+    media = calcular_media (dados)
+    print("MEDIA ARITIMETICA:", media,"\n")
+    mediana = calcular_mediana (dados)
+    print("MEDIANA:", mediana,"\n")
+    moda = calcular_moda (dados)
+    print("MODA:", moda,"\n")
     
     
     

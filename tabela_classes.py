@@ -6,8 +6,8 @@ def amostragem_aleatoria():
     tam = int(input("Digite o tamanho da amostragem:"))
     for i in range(0,tam):
             lista.append(random.randint(0, 100))
-    print("AMOSTRA:")
-    print(lista)
+    lista.sort()
+    print("AMOSTRA:",lista,"\n")
     
     return lista
 
@@ -30,12 +30,11 @@ def amplitude_total(lista):
 
 def regra_sturges(lista):
     k = 1 + 3.3*math.log10(len(lista))
-
+    
     return round(k)
 
 def amplitude_classe(h_total , k):
     h = h_total/k
-    
     return round(h)
     
 def montar_classes(lista, h, k):
@@ -47,7 +46,11 @@ def montar_classes(lista, h, k):
         classes[i].append(aux)
         classes[i].append(aux+h)
         aux = aux+h
-    
+    if max(lista) >= aux:
+        classes.append([])
+        classes[len(classes)-1].append(aux)
+        classes[len(classes)-1].append(aux+h)
+        
     return classes
         
         
@@ -100,18 +103,19 @@ def imprimir_tabela(classes, absoluta, ponto_medio, xifi, acumulada, relativa):
     soma_xifi = 0
     soma_fri = 0
     
-    formato_cabecalho = '{:<5} {:<10} {:<5} {:<8} {:<8} {:<5} {:<5}'
-    print("-"*60)
+    formato_cabecalho = '{:<5} {:>10} {:>10} {:>10} {:>10} {:>10} {:>10}'
+    print("\n\n")
+    print("-"*80)
     print(formato_cabecalho.format('i', 'CLASSE', 'Fi', 'Xi','Xi.Fi', 'Fa', 'FRi'))
-    print("-"*60)
+    print("-"*80)
     for i in range(len(classes)):
-        formato = '{:<5} {:>}|--{:<5} {:<5} {:<8} {:<8} {:<5} {:<}%'
-        print(formato.format(i+1, classes[i][0], classes[i][1], absoluta[i], ponto_medio[i], xifi[i],acumulada[i],relativa[i]))
+        formato = '{:<5} {:>10} {:>10} {:>10} {:>10} {:>10} {:>10.2f}%'
+        print(formato.format(i+1, (str(classes[i][0])+"|--"+str(classes[i][1])), absoluta[i], ponto_medio[i], xifi[i],acumulada[i],relativa[i]))
         soma_xifi += xifi[i]
         soma_fri += relativa[i]
-    print("-"*60)   
-    print(formato_cabecalho.format("TOTAL","",acumulada[-1],"",soma_xifi,"",soma_fri)+"%")
-    print("-"*60)
+    print("-"*80)    
+    print(formato.format("TOTAL","",acumulada[-1],"",soma_xifi,"",soma_fri))
+    print("-"*80)
     
     
 def main():
@@ -119,23 +123,23 @@ def main():
     dados = amostragem_aleatoria()
     #print("DADOS:\n",dados)
     amp_total = amplitude_total(dados)
-    #print("AMPLITUDE TOTAL:\n", amp_total)
+    print("AMPLITUDE TOTAL:",amp_total,"\n")
     sturges = regra_sturges(dados)
-    #print("REGRA DE STURGES:\n", sturges)
+    print("REGRA DE STURGES:",sturges,"\n")
     amp_classe = amplitude_classe(amp_total, sturges)
-    #print("AMPLITUDE DE CLASSE:\n", amp_classe)
+    print("AMPLITUDE DE CLASSE:",amp_classe,"\n")
     classes = montar_classes(dados, amp_classe, sturges)
-    #print("CLASSES:\n", classes)
+    print("CLASSES:",classes,"\n")
     ponto_medio = calcular_ponto_medio(classes)
-    #print("PONTO MEDIO:\n", ponto_medio)
+    print("PONTO MEDIO:", ponto_medio,"\n")
     absoluta = frequencia_absoluta(dados, classes)
-    #print("FREQUENCIA ABSOLUTA: \n", absoluta)
+    print("FREQUENCIA ABSOLUTA:", absoluta,"\n")
     acumulada = frequencia_acumulda(absoluta)
-    #print("FREQUENCIA ACUMULADA: \n", acumulada)
+    print("FREQUENCIA ACUMULADA:", acumulada,"\n")
     relativa = frequencia_relativa(absoluta, dados)
-    #print("FREQUENCIA RELATIVA: \n", relativa)
+    print("FREQUENCIA RELATIVA:", relativa,"\n")
     xifi = calcular_xifi (absoluta, ponto_medio)
-    #print("Xi.Fi:\n", xifi)
+    print("Xi.Fi:", xifi,"\n")
     imprimir_tabela(classes, absoluta, ponto_medio, xifi, acumulada, relativa)
     
     
